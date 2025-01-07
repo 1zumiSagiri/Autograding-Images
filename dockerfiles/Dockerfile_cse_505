@@ -1,7 +1,5 @@
-# Autolab - autograding docker image
-
+LABEL org.opencontainers.image.authors="Andrew K. Hirsch <akhirsch@buffalo.edu>"
 FROM ubuntu:22.04
-LABEL author="Andrew K. Hirsch <akhirsch@buffalo.edu>"
 
 USER root
 

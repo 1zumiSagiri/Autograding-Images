@@ -1,7 +1,5 @@
-# Autolab - autograding docker image
-
+LABEL org.opencontainers.image.authors="Josh Caskie <jmcaskie@buffalo.edu>"
 FROM ubuntu:20.04
-MAINTAINER Josh Caskie <jmcaskie@buffalo.edu>
 
 #Utilities and Updates
 RUN apt-get update --fix-missing

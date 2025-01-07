@@ -1,7 +1,5 @@
-# Autolab - autograding docker image
-
+LABEL org.opencontainers.image.authors="Mingchen Gao <mgao8@buffalo.edu>"
 FROM ubuntu:18.04
-MAINTAINER Mingchen Gao <mgao8@buffalo.edu>
 
 #C++ Setup
 RUN apt-get update
