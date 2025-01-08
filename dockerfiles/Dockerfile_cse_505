@@ -1,5 +1,5 @@
-LABEL org.opencontainers.image.authors="Andrew K. Hirsch <akhirsch@buffalo.edu>"
 FROM ubuntu:22.04
+LABEL org.opencontainers.image.authors="Andrew K. Hirsch <akhirsch@buffalo.edu>"
 
 USER root
 

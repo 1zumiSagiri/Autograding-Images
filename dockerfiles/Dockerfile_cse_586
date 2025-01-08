@@ -1,5 +1,5 @@
-LABEL org.opencontainers.image.authors="Josh Caskie <jmcaskie@buffalo.edu>"
 FROM ubuntu:20.04
+LABEL org.opencontainers.image.authors="Josh Caskie <jmcaskie@buffalo.edu>"
 
 #Utilities and Updates
 RUN apt-get update --fix-missing

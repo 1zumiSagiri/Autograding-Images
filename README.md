@@ -12,9 +12,10 @@ Instructors should read UB CSE's [Autolab Public Documentation](https://github.c
 
 ### Author label
 
-Your Dockerfile must contain an author label at the top (as the first Dockerfile instruction). This is a [standard annotation](https://github.com/opencontainers/image-spec/blob/main/annotations.md) developed by the [Open Containers Initiative](https://opencontainers.org/). Multiple values can be separated by commas. E.g., `Alice Smith, Bob Jones`. You may optionally include email addresses in angle brackets after the name. E.g., `Alice Smith <alice@example.com>`. If you don't want to publish your real name, you may use your GitHub username.
+Your Dockerfile must contain an author label towards the top (as the second Dockerfile instruction after `FROM`). This is a [standard annotation](https://github.com/opencontainers/image-spec/blob/main/annotations.md) developed by the [Open Containers Initiative](https://opencontainers.org/). Multiple values can be separated by commas. E.g., `Alice Smith, Bob Jones`. You may optionally include email addresses in angle brackets after the name. E.g., `Alice Smith <alice@example.com>`. If you don't want to publish your real name, you may use your GitHub username.
 
 ```Dockerfile
+FROM ubuntu:24.04
 LABEL org.opencontainers.image.authors="Alice Smith"
 ```
 

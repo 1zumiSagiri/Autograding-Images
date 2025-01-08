@@ -1,5 +1,5 @@
-LABEL org.opencontainers.image.authors="Zhuoyue Zhao <zzhao35@buffalo.edu>"
 FROM ubuntu:20.04
+LABEL org.opencontainers.image.authors="Zhuoyue Zhao <zzhao35@buffalo.edu>"
 
 #C++ Setup
 RUN apt-get update

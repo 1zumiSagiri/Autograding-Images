@@ -1,5 +1,5 @@
-LABEL org.opencontainers.image.authors="Nicholas Myers, David Dobmeier"
 FROM ubuntu:18.04
+LABEL org.opencontainers.image.authors="Nicholas Myers, David Dobmeier"
 
 # C++ Setup
 RUN apt-get update
