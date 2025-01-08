@@ -1,5 +1,5 @@
-LABEL org.opencontainers.image.authors="Jaric Zola <jzola@buffalo.edu>"
 FROM ubuntu:24.04
+LABEL org.opencontainers.image.authors="Jaric Zola <jzola@buffalo.edu>"
 
 RUN apt-get update --fix-missing
 RUN apt-get upgrade -y

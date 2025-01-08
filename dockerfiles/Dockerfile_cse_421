@@ -1,7 +1,7 @@
 # Autolab - autograding docker image for CSE421/521 pintos
 
-LABEL org.opencontainers.image.authors="Farshad Ghanei <farshadg@buffalo.edu>"
 FROM --platform=amd64 ubuntu:18.04
+LABEL org.opencontainers.image.authors="Farshad Ghanei <farshadg@buffalo.edu>"
 
 # prerequisites
 RUN apt-get update --fix-missing

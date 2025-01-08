@@ -1,5 +1,5 @@
-LABEL org.opencontainers.image.authors="Oliver Kennedy <okennedy@buffalo.edu>"
 FROM ubuntu:18.04
+LABEL org.opencontainers.image.authors="Oliver Kennedy <okennedy@buffalo.edu>"
 
 #C++ Setup
 RUN apt-get update

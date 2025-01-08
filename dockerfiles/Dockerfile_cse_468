@@ -1,5 +1,5 @@
-LABEL org.opencontainers.image.authors="Zijian an <zijianan@buffalo.edu>, Elvis Rodrigues <elvisdav@buffalo.edu>"
 FROM ros:melodic-ros-core-bionic
+LABEL org.opencontainers.image.authors="Zijian an <zijianan@buffalo.edu>, Elvis Rodrigues <elvisdav@buffalo.edu>"
 
 # install bootstrap tools
 RUN apt-get update && apt-get install --no-install-recommends -y \
