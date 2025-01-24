@@ -23,9 +23,6 @@ RUN wget https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.deb
 RUN apt install -y libc6-x32 libc6-i386 libasound2 libxi6 libxtst6
 RUN dpkg -i jdk-21_linux-x64_bin.deb
 
-#Bun setup
-RUN curl -fsSL https://bun.sh/install | bash
-
 #Node setup
 RUN apt-get update && apt-get install -y ca-certificates curl gnupg
 RUN mkdir -p /etc/apt/keyrings
@@ -39,6 +36,11 @@ RUN apt-get install -y unzip
 
 #Maven Setup
 RUN apt-get install -y maven
+
+#Bun setup
+RUN apt-get update && apt-get install -y curl
+RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.0"
+ENV PATH="/root/.bun/bin:${PATH}"
 
 
 # Install autodriver
