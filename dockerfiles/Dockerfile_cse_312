@@ -1,5 +1,5 @@
 FROM ubuntu:22.04
-LABEL org.opencontainers.image.authors="Jesse Hartloff, David Dobmeier <daviddob@buffalo.edu>"
+LABEL org.opencontainers.image.authors="Jesse Hartloff, Zaid Arshad <zaid.arshad@buffalo.edu>"
 
 #C++ Setup
 RUN apt-get update
