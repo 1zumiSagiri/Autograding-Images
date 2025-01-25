@@ -75,4 +75,5 @@ RUN which python3
 RUN which pip
 
 RUN npm install -g playwright
-RUN playwright install --with-deps
+RUN PLAYWRIGHT_BROWSERS_PATH=/home/autograde/.cache/ms-playwright playwright install --with-deps
+RUN chown -R autograde:autograde /home/autograde/.cache
