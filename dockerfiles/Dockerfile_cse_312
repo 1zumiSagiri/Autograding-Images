@@ -73,3 +73,6 @@ RUN which npm
 RUN which node
 RUN which python3
 RUN which pip
+
+RUN npm install -g playwright
+RUN playwright install --with-deps
