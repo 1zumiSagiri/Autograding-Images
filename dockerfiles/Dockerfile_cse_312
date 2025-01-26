@@ -1,5 +1,5 @@
 FROM ubuntu:22.04
-LABEL org.opencontainers.image.authors="Jesse Hartloff, Zaid Arshad <zaid.arshad@buffalo.edu>"
+LABEL org.opencontainers.image.authors="Jesse Hartloff, Zaid Arshad <zaidarsh@buffalo.edu>"
 
 #C++ Setup
 RUN apt-get update
@@ -27,8 +27,8 @@ RUN dpkg -i jdk-21_linux-x64_bin.deb
 RUN apt-get update && apt-get install -y ca-certificates curl gnupg
 RUN mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
-RUN apt-get update && apt-get install -y nodejs
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_22.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+RUN apt-get update && apt-get install -y nodejs=22.13.1-1nodesource1
 RUN npm install -g npm@latest
 
 #Utility setup
@@ -73,3 +73,7 @@ RUN which npm
 RUN which node
 RUN which python3
 RUN which pip
+
+RUN npm install -g playwright
+RUN PLAYWRIGHT_BROWSERS_PATH=/home/autograde/.cache/ms-playwright playwright install chromium firefox --with-deps
+RUN chown -R autograde:autograde /home/autograde/.cache
