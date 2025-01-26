@@ -58,8 +58,21 @@ RUN make clean && make
 RUN cp autodriver /usr/bin/autodriver
 RUN chmod +s /usr/bin/autodriver
 
-# Clean up
 WORKDIR /home
+# Install deps reliant on users existing
+RUN apt-get update && apt-get install -y gnupg curl
+RUN curl -fsSL https://pgp.mongodb.com/server-7.0.asc | \
+    gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
+    --dearmor
+RUN echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] http://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+RUN apt-get update && apt-get install -y mongodb-org
+RUN mkdir -p /data/db
+RUN chown -R autograde:autograde /data/db
+
+RUN npm install -g playwright
+RUN PLAYWRIGHT_BROWSERS_PATH=/home/autograde/.cache/ms-playwright playwright install chromium firefox --with-deps
+RUN chown -R autograde:autograde /home/autograde/.cache
+
 RUN apt-get -y autoremove
 RUN rm -rf Tango/
 
@@ -73,7 +86,3 @@ RUN which npm
 RUN which node
 RUN which python3
 RUN which pip
-
-RUN npm install -g playwright
-RUN PLAYWRIGHT_BROWSERS_PATH=/home/autograde/.cache/ms-playwright playwright install chromium firefox --with-deps
-RUN chown -R autograde:autograde /home/autograde/.cache
