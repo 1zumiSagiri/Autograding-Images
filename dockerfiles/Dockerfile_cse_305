@@ -7,8 +7,11 @@ RUN apt install -y make
 # Utility setup
 RUN apt install -y unzip
 
-#OCaml Setup
-RUN apt-get install -y ocaml
+# OCaml setup
+RUN apt-get install -y ocaml=4.14.1-1ubuntu1
+
+# Python setup
+RUN apt install -y python3
 
 # Install autodriver
 WORKDIR /home
@@ -34,3 +37,5 @@ RUN rm -rf Tango/
 # Check installation
 RUN ls -l /home
 RUN which autodriver
+RUN ocaml --version
+RUN python3 --version
