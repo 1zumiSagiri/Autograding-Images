@@ -1,0 +1,88 @@
+FROM ubuntu:22.04
+LABEL org.opencontainers.image.authors="Jesse Hartloff, Zaid Arshad <zaidarsh@buffalo.edu>"
+
+#C++ Setup
+RUN apt-get update
+RUN apt-get install -y gcc
+RUN apt-get install -y make
+RUN apt-get install -y build-essential
+RUN apt-get install -y libcunit1-dev libcunit1-doc libcunit1
+
+#Python Setup
+RUN apt-get update && apt-get install -y software-properties-common gcc
+RUN add-apt-repository -y ppa:deadsnakes/ppa
+RUN apt-get update --fix-missing && \
+    DEBIAN_FRONTEND=nointeractive apt-get install -y \
+    python3.12 python3-numpy python3-nose python3-pandas \
+    pep8 python3-pip python3-venv && pip install --upgrade setuptools
+
+#Java 19 Setup
+RUN apt update
+RUN apt-get install -y wget
+RUN wget https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.deb
+RUN apt install -y libc6-x32 libc6-i386 libasound2 libxi6 libxtst6
+RUN dpkg -i jdk-21_linux-x64_bin.deb
+
+#Node setup
+RUN apt-get update && apt-get install -y ca-certificates curl gnupg
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_22.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+RUN apt-get update && apt-get install -y nodejs=22.13.1-1nodesource1
+RUN npm install -g npm@latest
+
+#Utility setup
+RUN apt-get install -y unzip
+
+#Maven Setup
+RUN apt-get install -y maven
+
+#Bun setup
+RUN apt-get update && apt-get install -y curl
+RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.0"
+ENV PATH="/root/.bun/bin:${PATH}"
+
+# Install autodriver
+WORKDIR /home
+RUN useradd autolab
+RUN useradd autograde
+RUN mkdir autolab autograde output
+RUN chown autolab:autolab autolab
+RUN chown autolab:autolab output
+RUN chown autograde:autograde autograde
+RUN apt-get update && apt-get install -y sudo
+RUN apt-get install -y git
+RUN git clone https://github.com/autolab/Tango.git
+WORKDIR Tango/autodriver
+RUN make clean && make
+RUN cp autodriver /usr/bin/autodriver
+RUN chmod +s /usr/bin/autodriver
+
+WORKDIR /home
+# Install deps reliant on users existing
+RUN apt-get update && apt-get install -y gnupg curl
+RUN curl -fsSL https://pgp.mongodb.com/server-7.0.asc | \
+    gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
+    --dearmor
+RUN echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] http://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+RUN apt-get update && apt-get install -y mongodb-org
+RUN mkdir -p /data/db
+RUN chown -R autograde:autograde /data/db
+
+RUN npm install -g playwright
+RUN PLAYWRIGHT_BROWSERS_PATH=/home/autograde/.cache/ms-playwright playwright install chromium firefox --with-deps
+RUN chown -R autograde:autograde /home/autograde/.cache
+
+RUN apt-get -y autoremove
+RUN rm -rf Tango/
+
+# Check installation
+RUN ls -l /home
+RUN which autodriver
+RUN which java
+RUN which javac
+RUN which bun
+RUN which npm
+RUN which node
+RUN which python3
+RUN which pip
