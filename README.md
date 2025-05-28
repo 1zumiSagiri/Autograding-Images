@@ -8,7 +8,7 @@ In the `Autograder Settings > VM Image` field, enter the name of the Dockerfile 
 
 ## Creating a new image
 
-Instructors should read UB CSE's [Autolab Public Documentation](https://github.com/UB-CSE-IT/Autolab-Public-Documentation) to learn how to create a new autograding image. Then, create a Dockerfile that meets our requirements for standardization.
+Instructors should read UB CSE's [Public Autolab Documentation](https://napps.cse.buffalo.edu/docs/autolab) to learn how to create a new autograding image. Then, create a Dockerfile that meets our requirements for standardization.
 
 ### Author label
 
