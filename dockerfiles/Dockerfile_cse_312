@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y software-properties-common gcc
 RUN add-apt-repository -y ppa:deadsnakes/ppa
 RUN apt-get update --fix-missing && \
     DEBIAN_FRONTEND=nointeractive apt-get install -y \
-    python3.12 python3-numpy python3-nose python3-pandas \
+    python3.12 python3-numpy python3-nose python3-pandas python3-boto3 \
     pep8 python3-pip python3-venv && pip install --upgrade setuptools
 
 #Java 19 Setup
