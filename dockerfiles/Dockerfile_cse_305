@@ -1,17 +1,14 @@
 FROM ubuntu:24.04
-LABEL org.opencontainers.image.authors="Nicholas Myers, Eric Mikida"
+LABEL org.opencontainers.image.authors="Vincent Chan <vichan39@buffalo.edu>"
 
-RUN apt update
-RUN apt install -y make
+ARG OCAML_VERSION=4.14.2
+ARG USER_NAME=autolab
 
 # Utility setup
-RUN apt install -y unzip
-
-# OCaml setup
-RUN apt-get install -y ocaml=4.14.1-1ubuntu1
-
-# Python setup
-RUN apt install -y python3
+RUN apt-get update
+RUN apt-get install -y apt-utils build-essential
+RUN apt-get install -y ca-certificates curl git python3
+RUN apt-get install -y opam bubblewrap rsync unzip
 
 # Install autodriver
 WORKDIR /home
@@ -29,6 +26,17 @@ RUN make clean && make
 RUN cp autodriver /usr/bin/autodriver
 RUN chmod +s /usr/bin/autodriver
 
+# OPAM Setup
+WORKDIR /home/${USER_NAME}
+USER ${USER_NAME}
+ENV PATH=/home/${USER_NAME}/.opam/${USER_NAME}_${OCAML_VERSION}/bin:$PATH
+RUN opam init --bare -ay
+RUN opam switch create ${USER_NAME}_${OCAML_VERSION} ocaml-base-compiler.${OCAML_VERSION}
+RUN opam install -y merlin ocaml-lsp-server ocamlformat utop
+RUN chmod +x .opam/opam-init/*.sh
+RUN echo 'eval $(opam env)' >> .bashrc
+USER root
+
 # Clean up
 WORKDIR /home
 RUN apt -y autoremove
@@ -37,5 +45,7 @@ RUN rm -rf Tango/
 # Check installation
 RUN ls -l /home
 RUN which autodriver
-RUN ocaml --version
+USER ${USER_NAME}
+RUN ocamlc --version
 RUN python3 --version
+USER root
