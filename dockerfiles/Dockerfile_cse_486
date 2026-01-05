@@ -1,5 +1,8 @@
 FROM ubuntu:24.04
-LABEL org.opencontainers.image.authors="Ethan Blanton <eblanton@buffalo.edu>, Josh Caskie <jmcaskie@buffalo.edu>"
+LABEL org.opencontainers.image.authors="Ethan Blanton <eblanton@buffalo.edu>"
+
+# Josh Caskie made updates to this image in Spring 2023, but is no
+# longer a maintainer.
 
 #Utilities and Updates
 RUN apt-get update --fix-missing
@@ -13,7 +16,7 @@ RUN apt-get install -y python3
 
 
 #Golang Setup
-ARG GOVERSION=1.23.4
+ARG GOVERSION=1.23.12
 RUN wget https://go.dev/dl/go$GOVERSION.linux-amd64.tar.gz
 RUN rm -rf /usr/local/go && tar -C /usr/local -xzf go$GOVERSION.linux-amd64.tar.gz
 # Update the PATH manually within the image setup
