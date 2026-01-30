@@ -32,7 +32,7 @@ USER ${USER_NAME}
 ENV PATH=/home/${USER_NAME}/.opam/${USER_NAME}_${OCAML_VERSION}/bin:$PATH
 RUN opam init --bare -ay
 RUN opam switch create ${USER_NAME}_${OCAML_VERSION} ocaml-base-compiler.${OCAML_VERSION}
-RUN opam install -y merlin ocaml-lsp-server ocamlformat utop
+RUN opam install -y merlin ocaml-lsp-server ocamlformat utop ounit2
 RUN chmod +x .opam/opam-init/*.sh
 RUN echo 'eval $(opam env)' >> .bashrc
 USER root
