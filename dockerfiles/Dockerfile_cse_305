@@ -1,13 +1,12 @@
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 LABEL org.opencontainers.image.authors="Vincent Chan <vichan39@buffalo.edu>"
 
-ARG OCAML_VERSION=4.14.2
-ARG USER_NAME=autograde
+ARG OCAML_VERSION=5.3.0
 
 # Utility setup
 RUN apt-get update
 RUN apt-get install -y apt-utils build-essential
-RUN apt-get install -y ca-certificates curl git python3
+RUN apt-get install -y ca-certificates curl git python3 pipx
 RUN apt-get install -y opam bubblewrap rsync unzip
 
 # Install autodriver
@@ -27,16 +26,21 @@ RUN cp autodriver /usr/bin/autodriver
 RUN chmod +s /usr/bin/autodriver
 
 # OPAM Setup
-WORKDIR /home/${USER_NAME}
-USER ${USER_NAME}
-ENV PATH=/home/${USER_NAME}/.opam/${USER_NAME}_${OCAML_VERSION}/bin:$PATH
+WORKDIR /home/autograde
+USER autograde
+ENV PATH=/home/autograde/.opam/cse505/bin:$PATH
 RUN opam init --bare -ay
-RUN opam switch create ${USER_NAME}_${OCAML_VERSION} ocaml-base-compiler.${OCAML_VERSION}
-RUN opam install -y merlin ocaml-lsp-server ocamlformat utop ounit2
+RUN opam switch create cse505 ocaml-base-compiler.${OCAML_VERSION}
+RUN opam install -y utop odoc ounit2 qcheck bisect_ppx menhir ocaml-lsp-server ocamlformat dune ppx_monad
 RUN chmod +x .opam/opam-init/*.sh
 RUN echo 'eval $(opam env)' >> .bashrc
+
+# set up code analysis tool
+ENV PATH=/home/autograde/.local/bin:$PATH
+RUN pipx install semgrep
+
 USER root
-RUN echo "export PATH=/home/${USER_NAME}/.opam/${USER_NAME}_${OCAML_VERSION}/bin:$PATH" >> /etc/environment
+RUN echo "export PATH=/home/autograde/.opam/cse505/bin:$PATH" >> /etc/environment
 
 # Clean up
 RUN apt-get -y autoremove
@@ -45,9 +49,11 @@ WORKDIR /home
 
 # Check installation
 RUN ls -l /home
-USER ${USER_NAME}
+USER autograde
 RUN which autodriver
 RUN which ocaml
 RUN ocamlc --version
+RUN dune --version
 RUN python3 --version
+RUN semgrep --version
 USER root
